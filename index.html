@@ -288,6 +288,154 @@ a{ color:inherit; text-decoration:none; }
 
 .btn-ghost:hover{ border-color:var(--amber); color:var(--amber); }
 
+/* ---------- hero: destaque ---------- */
+
+.hero-kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  margin:0 0 26px;
+  font-family:var(--mono);
+  font-size:11.5px;
+  font-weight:500;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--amber);
+}
+
+.hero-kicker .dot{
+  width:7px; height:7px;
+  border-radius:50%;
+  background:var(--amber);
+  animation:pulse 1.9s ease-in-out infinite;
+}
+
+@keyframes pulse{
+  0%,100%{ box-shadow:0 0 0 3px var(--amber-lo); }
+  50%{ box-shadow:0 0 0 8px rgba(240,168,60,0); }
+}
+
+.rotate{ color:var(--amber); font-style:normal; }
+/* palavra rotativa isolada numa linha que nunca quebra -> layout estável */
+.rotate-line{ display:inline-block; white-space:nowrap; }
+.hero h1{ min-height:2.9em; }
+
+.hero-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:34px 0 0;
+  padding:0;
+  list-style:none;
+}
+
+.hero-meta li{
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:.03em;
+  color:#A9B4B7;
+  padding:7px 13px;
+  border:1px solid var(--line);
+  border-radius:2px;
+  background:var(--ink-2);
+}
+
+.hero-text > *{ animation:heroIn .7s ease both; }
+.hero-text > h1{ animation-delay:.12s; }
+.hero-sub{ animation-delay:.22s; }
+.hero-actions{ animation-delay:.32s; }
+.hero-meta{ animation-delay:.42s; }
+.hero-visual{ animation:heroIn .9s ease .28s both; }
+
+@keyframes heroIn{
+  from{ opacity:0; transform:translateY(16px); }
+  to{ opacity:1; transform:none; }
+}
+
+/* layout + brilho animado por trás */
+.hero{ position:relative; }
+.hero-text, .hero-visual{ position:relative; z-index:1; }
+
+.hero::before{
+  content:"";
+  position:absolute;
+  z-index:0;
+  inset:-14% -18% -18% -12%;
+  background:
+    radial-gradient(42% 52% at 80% 26%, rgba(240,168,60,.13), transparent 70%),
+    radial-gradient(38% 48% at 14% 76%, rgba(72,128,158,.12), transparent 70%);
+  filter:blur(8px);
+  pointer-events:none;
+  animation:aurora 16s ease-in-out infinite alternate;
+}
+
+@keyframes aurora{
+  from{ transform:translate3d(-2%,-1%,0) scale(1); }
+  to{ transform:translate3d(3%,2%,0) scale(1.08); }
+}
+
+@media (min-width:920px){
+  .hero{
+    display:grid;
+    grid-template-columns:1fr minmax(300px,410px);
+    gap:54px;
+    align-items:center;
+  }
+}
+
+/* cartão terminal */
+.hero-visual{ display:none; }
+@media (min-width:920px){ .hero-visual{ display:block; } }
+
+.term{
+  border:1px solid var(--line);
+  border-radius:10px;
+  overflow:hidden;
+  background:linear-gradient(180deg, #111A1E, #0C1316);
+  box-shadow:0 34px 64px -34px rgba(0,0,0,.75), 0 0 0 1px rgba(240,168,60,.05);
+  animation:floaty 7s ease-in-out infinite;
+}
+
+.term-bar{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:11px 14px;
+  border-bottom:1px solid var(--line);
+  background:rgba(255,255,255,.015);
+}
+
+.term-bar span{ width:10px; height:10px; border-radius:50%; background:#2A3A40; }
+.term-bar span:first-child{ background:#E0704B; }
+.term-bar span:nth-child(2){ background:#E0B24B; }
+.term-bar span:nth-child(3){ background:#5BB98C; }
+.term-bar em{ margin-left:8px; font-style:normal; font-family:var(--mono); font-size:11.5px; color:var(--mute); }
+
+.term-body{
+  margin:0;
+  padding:18px 18px 20px;
+  overflow:auto;
+  font-family:var(--mono);
+  font-size:12.5px;
+  line-height:1.75;
+  color:#AEB8BA;
+}
+
+.term-body .k{ color:var(--amber); }
+.term-body .s{ color:#E0B877; }
+.term-body .c{ color:#5C696D; font-style:italic; }
+
+.term-cursor{
+  display:inline-block;
+  width:.55em; height:1em;
+  vertical-align:-.15em;
+  margin-left:1px;
+  background:var(--amber);
+  animation:blink 1.15s steps(1,end) infinite;
+}
+
+@keyframes floaty{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-7px); } }
+
 /* ---------- sobre ---------- */
 
 .lede{
@@ -629,7 +777,9 @@ a{ color:inherit; text-decoration:none; }
 @media (prefers-reduced-motion:reduce){
   html{ scroll-behavior:auto; }
   .reveal{ opacity:1; transform:none; transition:none; }
-  .caret{ animation:none; }
+  .caret, .term-cursor{ animation:none; }
+  .hero-text > *, .hero-visual{ animation:none; opacity:1; transform:none; }
+  .hero-kicker .dot, .hero::before, .term{ animation:none; }
   .btn:hover, .project:hover{ transform:none; }
 }
 </style></head>
@@ -658,7 +808,7 @@ a{ color:inherit; text-decoration:none; }
     <div class="rail-foot">
       <a href="https://github.com/danielclara13" target="_blank" rel="noopener">GitHub</a>
       <a href="https://www.linkedin.com/in/daniel-clara/" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="CV_EN.pdf" target="_blank" rel="noopener">CV</a>
+      <a href="CV_EN.pdf?v=2" target="_blank" rel="noopener">CV</a>
     </div>
   </aside>
 
@@ -667,11 +817,32 @@ a{ color:inherit; text-decoration:none; }
 
     <!-- HERO -->
     <section class="block hero">
-      <h1>Software built to hold up in the<br>real world<em>.</em><span class="caret" aria-hidden="true"></span></h1>
-      <p>I build secure, scalable software and keep it running — from backend APIs and hardware integration to modular Android apps. Two years in the banking sector taught me to build for production, not just the demo.</p>
-      <div class="hero-actions">
-        <a class="btn btn-solid" href="#contact">Start a project</a>
-        <a class="btn btn-ghost" href="#projects">See what I've built</a>
+      <div class="hero-text">
+        <p class="hero-kicker"><span class="dot"></span> Available for freelance &amp; contract</p>
+        <h1>I build<br><span class="rotate-line"><span class="rotate" id="rotate">backends</span><span class="caret" aria-hidden="true"></span></span><br>that hold up in the real world<em>.</em></h1>
+        <p class="hero-sub">Secure, scalable software for the banking and financial sector — from backend services and hardware integration to modular Android apps. Two years shipping to production, not just demos.</p>
+        <div class="hero-actions">
+          <a class="btn btn-solid" href="#contact">Start a project</a>
+          <a class="btn btn-ghost" href="#projects">See what I've built</a>
+        </div>
+        <ul class="hero-meta">
+          <li>2+ yrs in fintech</li>
+          <li>C# · .NET · Kotlin</li>
+          <li>Lisbon → open to Germany</li>
+        </ul>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="term">
+          <div class="term-bar"><span></span><span></span><span></span><em>OrdersEndpoint.cs</em></div>
+<pre class="term-body"><code><span class="c">// minimal API · .NET 10</span>
+app.<span class="k">MapPost</span>(<span class="s">"/orders"</span>, <span class="k">async</span> (
+    OrderRequest req, IOrderService svc) =&gt;
+{
+    <span class="k">var</span> order = <span class="k">await</span> svc.Place(req);
+    <span class="k">return</span> Results.Created(order);
+});<span class="term-cursor"></span></code></pre>
+        </div>
       </div>
     </section>
 
@@ -845,7 +1016,7 @@ a{ color:inherit; text-decoration:none; }
       <ul class="channels">
         <li><a href="https://github.com/danielclara13" target="_blank" rel="noopener">GitHub ↗</a></li>
         <li><a href="https://www.linkedin.com/in/daniel-clara/" target="_blank" rel="noopener">LinkedIn ↗</a></li>
-        <li><a href="CV_EN.pdf" target="_blank" rel="noopener">CV (PDF) ↗</a></li>
+        <li><a href="CV_EN.pdf?v=2" target="_blank" rel="noopener">CV (PDF) ↗</a></li>
       </ul>
     </section>
 
@@ -889,6 +1060,40 @@ function markActive() {
 markActive();
 window.addEventListener('scroll', markActive, { passive: true });
 window.addEventListener('resize', markActive);
+
+/* hero headline: typewriter rotator with a FIXED-width slot (no layout shift) */
+function initRotate() {
+  var el = document.getElementById('rotate');
+  if (!el) return;
+  var line = el.parentNode; /* .rotate-line */
+  var words = ['backends', 'Android apps', 'REST APIs', 'payment apps'];
+
+  /* reserve the width of the longest word so the box never changes size */
+  var maxW = 0;
+  for (var i = 0; i < words.length; i++) {
+    el.textContent = words[i];
+    if (el.offsetWidth > maxW) maxW = el.offsetWidth;
+  }
+  line.style.width = 'calc(' + maxW + 'px + 0.7em)';
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) { el.textContent = words[0]; return; }
+
+  el.textContent = '';
+  var wi = 0, ci = 0, deleting = false;
+  function tick() {
+    var w = words[wi];
+    ci += deleting ? -1 : 1;
+    el.textContent = w.slice(0, ci);
+    if (!deleting && ci === w.length) { deleting = true; return setTimeout(tick, 1500); }
+    if (deleting && ci === 0) { deleting = false; wi = (wi + 1) % words.length; return setTimeout(tick, 350); }
+    setTimeout(tick, deleting ? 45 : 85);
+  }
+  setTimeout(tick, 650);
+}
+/* medir só depois de a fonte carregar, senão a largura fica errada */
+if (document.fonts && document.fonts.ready) { document.fonts.ready.then(initRotate); }
+else { window.addEventListener('load', initRotate); }
 </script>
 
 </body>
