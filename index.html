@@ -48,6 +48,7 @@ html{ scroll-behavior:smooth; }
 
 body{
   margin:0;
+  overflow-x:clip;
   background:var(--ink);
   color:var(--bone);
   font-family:var(--body);
@@ -360,7 +361,7 @@ a{ color:inherit; text-decoration:none; }
   content:"";
   position:absolute;
   z-index:0;
-  inset:-14% -18% -18% -12%;
+  inset:-14% 0 -18% 0;
   background:
     radial-gradient(42% 52% at 80% 26%, rgba(240,168,60,.13), transparent 70%),
     radial-gradient(38% 48% at 14% 76%, rgba(72,128,158,.12), transparent 70%);
@@ -381,6 +382,8 @@ a{ color:inherit; text-decoration:none; }
     gap:54px;
     align-items:center;
   }
+  /* cartão alinhado ao topo, emparelhado com o título (sem flutuar no preto) */
+  .hero-visual{ align-self:start; margin-top:6px; }
 }
 
 /* cartão terminal */
@@ -414,7 +417,8 @@ a{ color:inherit; text-decoration:none; }
 .term-body{
   margin:0;
   padding:18px 18px 20px;
-  overflow:auto;
+  overflow:hidden;
+  white-space:pre;
   font-family:var(--mono);
   font-size:12.5px;
   line-height:1.75;
@@ -834,14 +838,15 @@ a{ color:inherit; text-decoration:none; }
 
       <div class="hero-visual" aria-hidden="true">
         <div class="term">
-          <div class="term-bar"><span></span><span></span><span></span><em>OrdersEndpoint.cs</em></div>
-<pre class="term-body"><code><span class="c">// minimal API · .NET 10</span>
-app.<span class="k">MapPost</span>(<span class="s">"/orders"</span>, <span class="k">async</span> (
-    OrderRequest req, IOrderService svc) =&gt;
+          <div class="term-bar"><span></span><span></span><span></span><em>OrderService.cs</em></div>
+<pre class="term-body"><code><span class="c">// PlaceOrder · .NET 10</span>
+<span class="k">public async</span> Task&lt;Order&gt; <span class="k">Place</span>(
+    OrderRequest req)
 {
-    <span class="k">var</span> order = <span class="k">await</span> svc.Place(req);
-    <span class="k">return</span> Results.Created(order);
-});<span class="term-cursor"></span></code></pre>
+    <span class="k">var</span> order = Map(req);
+    <span class="k">await</span> _repo.Add(order);
+    <span class="k">return</span> order;
+}<span class="term-cursor"></span></code></pre>
         </div>
       </div>
     </section>
