@@ -1194,7 +1194,10 @@ var targets = links.map(function (a) { return document.querySelector(a.getAttrib
 function markActive() {
   var line = window.scrollY + window.innerHeight * 0.32;
   var current = -1;
-  targets.forEach(function (t, i) { if (t && t.offsetTop <= line) current = i; });
+  targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top + window.scrollY <= line) current = i; });
+  /* no fundo da página, a última secção é a ativa */
+  var atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+  if (atBottom) current = targets.length - 1;
   links.forEach(function (a, i) {
     if (i === current) { a.setAttribute('data-active', 'true'); }
     else { a.removeAttribute('data-active'); }
