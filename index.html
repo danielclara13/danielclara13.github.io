@@ -367,7 +367,6 @@ a{ color:inherit; text-decoration:none; }
     radial-gradient(38% 48% at 14% 76%, rgba(72,128,158,.12), transparent 70%);
   filter:blur(8px);
   pointer-events:none;
-  animation:aurora 16s ease-in-out infinite alternate;
 }
 
 @keyframes aurora{
@@ -904,8 +903,18 @@ body::after{
   .service::before{ transition:none; }
 }
 
-/* conter o brilho sem cortar o cartão (grid já corrigido) */
-.hero{ overflow:clip; }
+/* brilho na coluna inteira, sem aresta: desvanece sozinho */
+.main{ position:relative; }
+.main::before{
+  content:""; position:absolute; left:-20%; right:-20%; top:-300px; height:min(1300px,160vh);
+  z-index:0; pointer-events:none;
+  background:
+    radial-gradient(40% 36% at 66% 42%, rgba(180,240,60,.12), transparent 70%),
+    radial-gradient(30% 30% at 22% 68%, rgba(72,128,158,.10), transparent 70%);
+}
+.hero::before{ display:none; }
+.block{ position:relative; z-index:1; }
+@media (min-width:1000px){ .block{ max-width:1120px; } }
 @keyframes aurora{
   from{ transform:translate3d(-2%,-1%,0); }
   to{ transform:translate3d(2%,2%,0); }
